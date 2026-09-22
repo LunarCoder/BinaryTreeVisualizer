@@ -1,0 +1,10 @@
+HTML:
+[ BST Operations View]
+
+Tree view -- Pseudocode view
+
+BST:
+    SVG (easier for drawing lines/nodes )
+
+Visualizing and highlighting:
+    Algorithms must return steps to actually visualize/highlight the code.
