@@ -1,0 +1,10 @@
+
+/* Style for the SVG element */
+#bst {
+  width: 50vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border: 2px solid blue;
+  }

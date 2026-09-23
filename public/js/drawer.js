@@ -1,8 +1,10 @@
-//Handles the logic for drawing the BST.
+// Drawer.js handles the logic for drawing the BST using SVG elements. 
+// It takes a tree and an <svg> element and draws the tree inside the SVG recursively.
 
-//Node spacing
-const xSpacing = 200;
-const yspacing = 75;
+//Tree Settings
+const nodeSize = 10;
+const xSpacing = 225;
+const yspacing = 55;
 
 //Takes a BST and SVG element and draws the tree inside the SVG
 export function drawTree(tree, svg) {
@@ -10,8 +12,9 @@ export function drawTree(tree, svg) {
 
   //Determine starting position of the root node
   const rect = svg.getBoundingClientRect();
+  console.log(rect.width);
   const x = rect.width / 2;
-  const y = rect.y + 50;
+  const y = 50;
 
   drawNodes(tree.root, x, y, svg, 0);
 }
@@ -19,15 +22,19 @@ export function drawTree(tree, svg) {
 //Recursively draw nodes and lines connecting them
 function drawNodes(node, x, y, svg, depth) {
   if (node === null) return;
-    drawNode(x, y, svg);
-    if (node.left !== null) {
-        drawLine(x, y, x - xSpacing, y + yspacing, svg);
-        drawNodes(node.left, x - xSpacing, y + yspacing, svg, depth + 1);
-    }
-    if (node.right !== null) {
-        drawLine(x, y, x + xSpacing, y + yspacing, svg);
-        drawNodes(node.right, x + xSpacing, y + yspacing, svg, depth + 1);
-    }
+  drawNode(x, y, svg);
+
+  //Depth-based x spacing in order to reduce overlap
+  const spacing = xSpacing / 2**depth;
+  
+  if (node.left !== null) {
+    drawLine(x, y, x - spacing, y + yspacing, svg);
+    drawNodes(node.left, x - spacing, y + yspacing, svg, depth + 1);
+  }
+  if (node.right !== null) {
+    drawLine(x, y, x + spacing, y + yspacing, svg);
+    drawNodes(node.right, x + spacing, y + yspacing, svg, depth + 1);
+  }
 }
 
 //Helper function to draw a single node
@@ -35,7 +42,7 @@ function drawNode(x, y, svg) {
   const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
   node.setAttribute("cx", x);
   node.setAttribute("cy", y);
-  node.setAttribute("r", 20);
+  node.setAttribute("r", nodeSize);
   node.setAttribute("fill", "black");
   svg.appendChild(node);
 }
