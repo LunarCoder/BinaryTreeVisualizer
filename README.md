@@ -1,6 +1,6 @@
 # Binary Tree Visualizer
 
-A web-based binary search tree visualizer built with HTML, CSS, and JavaScript.
+A binary search tree visualizer web app built with JavaScript, HTML, and CSS.
 
 ## Demo
 
