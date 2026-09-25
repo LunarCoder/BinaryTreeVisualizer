@@ -1,5 +1,4 @@
 //Simple implementation of Binary Search Tree node
-
 class Node {
   constructor(value) {
     this.value = value;
@@ -13,30 +12,23 @@ export class BinarySearchTree {
     this.root = null;
   }
 
-  //insert new value into BST
-  insert(value) {
+  // BST Insert algorithm
+  insert(value, parent = this.root) {
     const newNode = new Node(value);
-    if (this.root === null) {
-      this.root = newNode;
-    } else {
-      this._insert(this.root, newNode);
-    }
-  }
+    if (this.root === null) return this.root = newNode;
 
-  //Recursive helper function to add new node to BST
-  _insert(node, newNode) {
-    if (newNode.value < node.value) {
-      if (node.left === null) {
-        node.left = newNode;
-      } else {
-        this._insert(node.left, newNode);
-      }
-    } else {
-      if (node.right === null) {
-        node.right = newNode;
-      } else {
-        this._insert(node.right, newNode);
-      }
-    }
+    if (newNode.value < parent.value) {
+          if (parent.left === null) {
+            parent.left = newNode;
+          } else {
+            this.insert(value, parent.left);
+          }
+        } else {
+          if (parent.right === null) {
+            parent.right = newNode;
+          } else {
+            this.insert(value, parent.right);
+          }
+        }
   }
 }

@@ -1,8 +1,5 @@
-//The main index.html script for BST Visualizer. Links everything together to create the final webapp.
-
-// future imports
-//
-//
+// The main index.html script for BST Visualizer.
+// Imports
 import { BinarySearchTree } from "./bst.js";
 import {drawTree} from "./drawer.js";
 

@@ -2,13 +2,16 @@
 // It takes a tree and an <svg> element and draws the tree inside the SVG recursively.
 
 // Tree Settings
+const nodeColor = "black";
+const textColor = "white";
+const lineColor = "lightpink";
+
+//Initial node size
 const nodeSize = 100;
 
-// Helper function that takes a BST and SVG element and draws the tree inside the SVG
+// Function that takes a BST and SVG element and draws the tree inside the SVG
 export function drawTree(tree, svg) {
-  //Clear the SVG element
   svg.innerHTML = "";
-
   drawNodes(tree.root, 0, 0, svg);
 }
 
@@ -21,11 +24,12 @@ function drawNodes(node, slot, depth, svg) {
   const rect = svg.getBoundingClientRect();
   const slots = 2 ** depth;
 
-  // Calculate the current x and y position of this node
+  // Based on depth and current slot, calculate the current x and y position of this node
   const x = (slot + 0.5) / slots * rect.width;
-  const y = nodeSize + depth * (nodeSize * 0.975 ** depth);
-  // Calculate the y position of the child nodes
-  const nextY = nodeSize + (depth + 1) * (nodeSize * 0.975 ** (depth + 1));
+  const y = nodeSize + depth * (nodeSize * 0.95 ** depth);
+
+  // Calculate the child y position
+  const nextY = nodeSize + (depth + 1) * (nodeSize * 0.95 ** (depth + 1));
 
   if (node.left !== null) {
     const nextX = (slot * 2 + 0.5) / (slots * 2) * rect.width;
@@ -41,7 +45,7 @@ function drawNodes(node, slot, depth, svg) {
   }
 
   drawNode(x, y, nodeSize * 0.7 ** depth, svg);
-  drawText(x, y, nodeSize * 0.75 ** depth, node.value, svg);
+  drawText(x, y, nodeSize * 0.7 ** depth, node.value, svg);
 }
 
 // Helper function to draw a single node
@@ -50,7 +54,7 @@ function drawNode(x, y, size, svg) {
   node.setAttribute("cx", x);
   node.setAttribute("cy", y);
   node.setAttribute("r", size);
-  node.setAttribute("fill", "black");
+  node.setAttribute("fill", nodeColor);
 
   svg.appendChild(node);
 }
@@ -62,8 +66,9 @@ function drawLine(x1, y1, x2, y2, svg) {
   line.setAttribute("y1", y1);
   line.setAttribute("x2", x2);
   line.setAttribute("y2", y2);
-  line.setAttribute("stroke", "lightpink");
-  line.setAttribute("stroke-width", "3");
+  line.setAttribute("stroke", lineColor);
+  line.setAttribute("stroke-width", "2.5");
+
   svg.appendChild(line);
 }
 // Helper function to draw text
@@ -74,7 +79,8 @@ function drawText(x, y, fontSize, value, svg) {
   text.setAttribute("text-anchor", "middle");
   text.setAttribute("dominant-baseline", "middle");
   text.setAttribute("font-size", fontSize);
-  text.setAttribute("fill", "white");
+  text.setAttribute("fill", textColor);
   text.textContent = value;
+
   svg.appendChild(text);
 }
