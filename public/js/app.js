@@ -9,8 +9,15 @@ import {drawTree} from "./drawer.js";
 
 //Initial example tree to display when the page is loaded
 const initialTree = new BinarySearchTree();
-for (let i = 0; i < 20; i++) {
-  initialTree.insert(Math.floor(Math.random() * 100));
+let generatedValues = [];
+for (let i = 0; i < 15; i++) {
+  let val = Math.floor(Math.random() * 100);
+  while (generatedValues.includes(val)) {
+    val = Math.floor(Math.random() * 100);
+  }
+  console.log(`Generated value: ${val}`);
+  generatedValues.push(val);
+  initialTree.insert(val);
 }
 
 console.log("Drawing inital tree..");
