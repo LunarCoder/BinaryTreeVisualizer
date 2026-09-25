@@ -1,12 +1,13 @@
+/* Styles for the Binary Tree Visualizer */
 body {
   background-color: rgb(40, 40, 40);
 }
 
-/* Style for the SVG element */
+/* Main SVG element */
 #bst {
   width: 80vw;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  }
+}
