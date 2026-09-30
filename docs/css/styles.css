@@ -1,13 +1,53 @@
 /* Styles for the Binary Tree Visualizer */
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: rgb(40, 40, 40);
+  font-family: 'Roboto Mono', monospace;
+  margin: 0;
+}
+
+nav {
+  background-color: rgb(40, 40, 40);
+  padding: 8px;
+  text-align: center;
+  height: 10vh;
+}
+
+.main-content {
+  height: 90vh;
+  display: flex;
+}
+
+#title {
+  color: white;
+  font-size: 18px;
+}
+
+#bstView {
+  width: 75vw;
+  height: 100%;
 }
 
 /* Main SVG element */
 #bst {
-  width: 80vw;
-  height: 100vh;
-  position: fixed;
+  width: 75vw;
+  height: 100%;
   top: 0;
   left: 0;
+}
+
+#highlighterTitle {
+  color: green;
+}
+
+#highlighterView {
+  height: 100%;
+  width: 25vw;
+  border: 2px solid green;
+  border-radius: 5px;
+  padding: 8px;
+  text-align: center;
 }

@@ -5,31 +5,29 @@
 const nodeColor = "black";
 const textColor = "white";
 const lineColor = "lightpink";
+// Initial node size
+const nodeSize = 80;
+const shrinkFactor = 0.7;
 
-//Initial node size
-const nodeSize = 100;
 
 // Function that takes a BST and SVG element and draws the tree inside the SVG
 export function drawTree(tree, svg) {
   svg.innerHTML = "";
-  drawNodes(tree.root, 0, 0, svg);
+  return drawNodes(tree.root, 0, 0, svg);
 }
 
-// Helper function to recursively draw nodes and lines connecting them
+// Helper function to recursively draw nodes and lines connecting them.
 function drawNodes(node, slot, depth, svg) {
   if (node === null) return;
 
-  // Determine the x position using a simple slot system
+  // Allocating nodes using a slot system based on depth 
+  // Slots at depth = 2^depth
   // This ensures that each node has it's own position, avoiding overlapping nodes
   const rect = svg.getBoundingClientRect();
   const slots = 2 ** depth;
-
-  // Based on depth and current slot, calculate the current x and y position of this node
   const x = (slot + 0.5) / slots * rect.width;
   const y = nodeSize + depth * (nodeSize * 0.95 ** depth);
-
-  // Calculate the child y position
-  const nextY = nodeSize + (depth + 1) * (nodeSize * 0.95 ** (depth + 1));
+  const nextY = nodeSize + (depth + 1) * (nodeSize * 0.95 ** (depth + 1));  // Calculate the child y position
 
   if (node.left !== null) {
     const nextX = (slot * 2 + 0.5) / (slots * 2) * rect.width;
@@ -44,8 +42,8 @@ function drawNodes(node, slot, depth, svg) {
     drawNodes(node.right, slot * 2 + 1, depth + 1, svg);
   }
 
-  drawNode(x, y, nodeSize * 0.7 ** depth, svg);
-  drawText(x, y, nodeSize * 0.7 ** depth, node.value, svg);
+  drawNode(x, y, nodeSize * shrinkFactor ** depth, svg);
+  drawText(x, y, nodeSize * shrinkFactor ** depth, node.value, svg);
 }
 
 // Helper function to draw a single node
