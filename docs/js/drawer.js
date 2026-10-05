@@ -5,19 +5,18 @@
 const nodeColor = "black";
 const textColor = "white";
 const lineColor = "lightpink";
-// Initial node size
-const nodeSize = 80;
-const shrinkFactor = 0.7;
-
+const nodeSize = 80; // Initial node size
 
 // Function that takes a BST and SVG element and draws the tree inside the SVG
 export function drawTree(tree, svg) {
   svg.innerHTML = "";
-  return drawNodes(tree.root, 0, 0, svg);
+  const nodes = {};
+  drawNodes(tree.root, 0, 0, svg, 0.7, 0.95, nodes);
+  return nodes;
 }
 
 // Helper function to recursively draw nodes and lines connecting them.
-function drawNodes(node, slot, depth, svg) {
+function drawNodes(node, slot, depth, svg, shrinkFactor = 0.7, verticalShrinkFactor = 0.95, nodes = {}) {
   if (node === null) return;
 
   // Allocating nodes using a slot system based on depth 
@@ -26,24 +25,27 @@ function drawNodes(node, slot, depth, svg) {
   const rect = svg.getBoundingClientRect();
   const slots = 2 ** depth;
   const x = (slot + 0.5) / slots * rect.width;
-  const y = nodeSize + depth * (nodeSize * 0.95 ** depth);
-  const nextY = nodeSize + (depth + 1) * (nodeSize * 0.95 ** (depth + 1));  // Calculate the child y position
+  const y = nodeSize + depth * (nodeSize * verticalShrinkFactor ** depth);
+  const nextY = nodeSize + (depth + 1) * (nodeSize * verticalShrinkFactor ** (depth + 1));  // Calculate the child y position
+  const size = nodeSize * shrinkFactor ** depth;
+
+  nodes[node.value] = { x, y, size };
 
   if (node.left !== null) {
     const nextX = (slot * 2 + 0.5) / (slots * 2) * rect.width;
 
     drawLine(x, y, nextX, nextY, svg);
-    drawNodes(node.left, slot * 2, depth + 1, svg);
+    drawNodes(node.left, slot * 2, depth + 1, svg, shrinkFactor, verticalShrinkFactor, nodes);
   }
   if (node.right !== null) {
     const nextX = (slot * 2 + 1 + 0.5) / (slots * 2) * rect.width;
 
     drawLine(x, y, nextX, nextY, svg);
-    drawNodes(node.right, slot * 2 + 1, depth + 1, svg);
+    drawNodes(node.right, slot * 2 + 1, depth + 1, svg, shrinkFactor, verticalShrinkFactor, nodes);
   }
 
-  drawNode(x, y, nodeSize * shrinkFactor ** depth, svg);
-  drawText(x, y, nodeSize * shrinkFactor ** depth, node.value, svg);
+  drawNode(x, y, size, svg);
+  drawText(x, y, size, node.value, svg);
 }
 
 // Helper function to draw a single node

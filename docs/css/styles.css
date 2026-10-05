@@ -3,6 +3,17 @@
   box-sizing: border-box;
 }
 
+
+/* Remove vertical scrollbar */
+html, body {
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background-color: rgb(40, 40, 40);
   font-family: 'Roboto Mono', monospace;

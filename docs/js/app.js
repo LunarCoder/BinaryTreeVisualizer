@@ -18,4 +18,4 @@ for (let i = 0; i < 15; i++) {
 }
 
 console.log("Drawing inital tree..");
-drawTree(initialTree, document.getElementById("bst"));
+console.log(drawTree(initialTree, document.getElementById("bst")));
