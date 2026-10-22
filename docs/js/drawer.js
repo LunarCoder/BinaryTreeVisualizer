@@ -3,6 +3,7 @@
 
 // Tree Settings
 const nodeColor = "black";
+const highlightColor = "green";
 const textColor = "white";
 const lineColor = "lightpink";
 const nodeSize = 80; // Initial node size
@@ -11,6 +12,7 @@ const nodeSize = 80; // Initial node size
 export function drawTree(tree, svg) {
   svg.innerHTML = "";
   const nodes = {};
+  
   drawNodes(tree.root, 0, 0, svg, 0.7, 0.95, nodes);
   return nodes;
 }
@@ -29,8 +31,6 @@ function drawNodes(node, slot, depth, svg, shrinkFactor = 0.7, verticalShrinkFac
   const nextY = nodeSize + (depth + 1) * (nodeSize * verticalShrinkFactor ** (depth + 1));  // Calculate the child y position
   const size = nodeSize * shrinkFactor ** depth;
 
-  nodes[node.value] = { x, y, size };
-
   if (node.left !== null) {
     const nextX = (slot * 2 + 0.5) / (slots * 2) * rect.width;
 
@@ -44,8 +44,10 @@ function drawNodes(node, slot, depth, svg, shrinkFactor = 0.7, verticalShrinkFac
     drawNodes(node.right, slot * 2 + 1, depth + 1, svg, shrinkFactor, verticalShrinkFactor, nodes);
   }
 
-  drawNode(x, y, size, svg);
+  const nodeElement = drawNode(x, y, size, svg);
   drawText(x, y, size, node.value, svg);
+
+  nodes[node.value] = { x, y, size, nodeElement };
 }
 
 // Helper function to draw a single node
@@ -55,8 +57,8 @@ function drawNode(x, y, size, svg) {
   node.setAttribute("cy", y);
   node.setAttribute("r", size);
   node.setAttribute("fill", nodeColor);
-
   svg.appendChild(node);
+  return node;
 }
 
 // Helper function to draw a line
@@ -71,6 +73,7 @@ function drawLine(x1, y1, x2, y2, svg) {
 
   svg.appendChild(line);
 }
+
 // Helper function to draw text
 function drawText(x, y, fontSize, value, svg) {
   const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -83,4 +86,13 @@ function drawText(x, y, fontSize, value, svg) {
   text.textContent = value;
 
   svg.appendChild(text);
+}
+
+// Helper functions to highlight and unhighlight nodes
+function highlightNode(nodeElement) {
+  nodeElement.setAttribute("fill", highlightColor);
+}
+
+function unhighlightNode(nodeElement) {
+  nodeElement.setAttribute("fill", nodeColor);
 }

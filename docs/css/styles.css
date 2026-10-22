@@ -15,21 +15,42 @@ body::-webkit-scrollbar {
 }
 
 body {
-  background-color: rgb(40, 40, 40);
+  background-color: rgb(32, 34, 59);
   font-family: 'Roboto Mono', monospace;
   margin: 0;
+
+  --bg-color: #ffffff;
+  --major-line: #cbd5e1; /* Bolder major lines */
+  --minor-line: #f1f5f9; /* Fainter minor lines */
+
+  /* "Graph paper" styling */
+  background-color: var(--bg-color);
+  background-image:
+    linear-gradient(to right, var(--major-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--major-line) 1px, transparent 1px),
+    linear-gradient(to right, var(--minor-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--minor-line) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+
+  /* Maybe: blueprint styling
+    background-color: #0f172a;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 25px 25px;
+  */
 }
 
 nav {
-  background-color: rgb(40, 40, 40);
-  padding: 8px;
+  padding:px;
   text-align: center;
   height: 10vh;
 }
 
 .main-content {
-  height: 90vh;
+  height: 84vh;
   display: flex;
+  padding: 8px;
 }
 
 #title {
@@ -51,14 +72,41 @@ nav {
 }
 
 #highlighterTitle {
-  color: green;
+  color: rgb(50, 255, 50);
 }
 
 #highlighterView {
-  height: 100%;
+  align-self: center;
+  height: 50%;
   width: 25vw;
-  border: 2px solid green;
-  border-radius: 5px;
-  padding: 8px;
+  background-color: rgb(37, 44, 69);
+  border: 5px solid rgb(50, 255, 50);
+  border-radius: 20px;
+  padding: 2px;
   text-align: center;
+  font-size: 12px;
+  color: rgb(50, 255, 50);
+}
+
+#code {
+  color: rgb(50, 255, 50);
+  text-align: left;
+  padding: 10px;
+  font-size: 18px;
+  overflow-y: auto;
+}
+
+#bottomnav {
+  height: 5vh;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(37, 44, 69);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+#bottomnav h3 {
+  padding:5px;
 }
