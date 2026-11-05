@@ -1,3 +1,5 @@
+// BST Definitions, logic, and associated algorithms.
+
 //Simple implementation of Binary Search Tree node
 class Node {
   constructor(value) {
