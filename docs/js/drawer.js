@@ -25,10 +25,12 @@ function drawNodes(node, slot, depth, svg, shrinkFactor = 0.7, verticalShrinkFac
   // Slots at depth = 2^depth
   // This ensures that each node has it's own position, avoiding overlapping nodes
   const rect = svg.getBoundingClientRect();
+
   const slots = 2 ** depth;
   const x = (slot + 0.5) / slots * rect.width;
   const y = nodeSize + depth * (nodeSize * verticalShrinkFactor ** depth);
   const nextY = nodeSize + (depth + 1) * (nodeSize * verticalShrinkFactor ** (depth + 1));  // Calculate the child y position
+
   const size = nodeSize * shrinkFactor ** depth;
 
   if (node.left !== null) {
@@ -44,8 +46,12 @@ function drawNodes(node, slot, depth, svg, shrinkFactor = 0.7, verticalShrinkFac
     drawNodes(node.right, slot * 2 + 1, depth + 1, svg, shrinkFactor, verticalShrinkFactor, nodes);
   }
 
+  //Text should get smaller in the node the longer the value is
+  const fontSize = Math.max(8, Math.min(size * 0.8,
+    (size * 1.5) / node.value.toString().length));
+
   const nodeElement = drawNode(x, y, size, svg);
-  drawText(x, y, size, node.value, svg);
+  drawText(x, y, fontSize, node.value, svg);
 
   nodes[node.value] = { x, y, size, nodeElement };
 }
@@ -89,10 +95,10 @@ function drawText(x, y, fontSize, value, svg) {
 }
 
 // Helper functions to highlight and unhighlight nodes
-function highlightNode(nodeElement) {
+export function highlightNode(nodeElement) {
   nodeElement.setAttribute("fill", highlightColor);
 }
 
-function unhighlightNode(nodeElement) {
+export function unhighlightNode(nodeElement) {
   nodeElement.setAttribute("fill", nodeColor);
 }

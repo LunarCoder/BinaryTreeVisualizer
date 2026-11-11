@@ -8,6 +8,7 @@
 html, body {
   scrollbar-width: none; 
   -ms-overflow-style: none; 
+  margin: 0;
 }
 html::-webkit-scrollbar, 
 body::-webkit-scrollbar {
@@ -18,7 +19,9 @@ body {
   background-color: rgb(32, 34, 59);
   font-family: 'Roboto Mono', monospace;
   margin: 0;
-
+  display: flex;
+    display: flex;
+  flex-direction: column;
   --bg-color: #ffffff;
   --major-line: #cbd5e1; /* Bolder major lines */
   --minor-line: #f1f5f9; /* Fainter minor lines */
@@ -42,9 +45,7 @@ body {
 }
 
 nav {
-  padding:px;
   text-align: center;
-  height: 10vh;
 }
 
 .main-content {
@@ -54,8 +55,13 @@ nav {
 }
 
 #title {
-  color: white;
+  color: rgb(255, 1, 1);
   font-size: 18px;
+}
+
+#controls {
+  text-align: center;
+  height: 7vh;
 }
 
 #bstView {
@@ -102,6 +108,9 @@ nav {
   width: 100%;
   padding: 10px;
   background-color: rgb(37, 44, 69);
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

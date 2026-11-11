@@ -10,6 +10,17 @@
     <h1 id = "title">Binary Search Tree Visualizer and Pseudocode Highlighter</h1>
   </nav>
 
+  <!-- Controls section -->
+  <section id = "controls">
+    <input id = "valueInput" type="number" placeholder="Enter a value">
+    <button id = "search">Search</button>
+    <button id = "insert">Insert</button>
+    <button id = "delete">Delete</button>
+    <button id = "selByRank">Select by Rank</button>
+    <button id = "clear">Clear</button>
+  </section>
+
+  <!-- Main content section -->
   <div class = "main-content">
     <section id="bstView"> <!-- BST view, left-->
       <svg id="bst" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -21,6 +32,7 @@
     </section>
   </div>
 
+  <!-- Bottom info bar -->
   <nav id = "bottomnav">
     <h3>Philip Russell </h3>
     <h3>YSU Capstone Project 2026</h3>
@@ -28,6 +40,6 @@
 </body>
 
 
-<!--Page Scripts -->
+<!-- Page Scripts -->
 <script type="module" src="js/app.js"></script>
 </html>
