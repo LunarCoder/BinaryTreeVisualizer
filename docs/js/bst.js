@@ -21,6 +21,7 @@ export class BinarySearchTree {
   // Generator functions to be used with a highlighter
   // Each step call yields information about the current node, and a description of what is happening for the code highlighter.
 
+  //A visualized iterative search algorithm for the BST
   *search(value) {
     let current = this.root;
 
@@ -57,15 +58,71 @@ export class BinarySearchTree {
     return false;
   }
 
+  // A visualized recursive insert
   *insert(value, parent = this.root) {
+    const newNode = new Node(value);
 
+    if (this.root === null) {
+      this.root = new Node(value);
+      yield {
+        node: null,
+        text: `Inserting ${value} as the root node`
+      };
+      return true;
+    }
+
+    if (value === parent.value) {
+      yield {
+        node: parent,
+        text: `${value} already exists in the tree`
+      };
+      return false; // Prevent duplicate values
+    }
+    
+    
+    if (newNode.value < parent.value) {
+      yield {
+        node: parent,
+        text: `${value} < ${parent.value}; search left`
+      };
+          if (parent.left === null) {
+            yield {
+              node: parent,
+              text: `No value found; insert left`
+            };
+            parent.left = newNode;
+            return true;
+          } else {
+            yield *this.insert(value, parent.left);
+            return;
+          }
+        } else {
+          yield {
+            node: parent,
+            text: `${value} > ${parent.value}; search right`
+          };
+          if (parent.right === null) {
+            yield {
+              node: parent,
+              text: `${value} > ${parent.value}; no value found; insert right`
+            };
+            parent.right = newNode;
+            return true;
+          } else {
+            yield * this.insert(value, parent.right);
+            return;
+          }
+        }
   }
+  
 
   *delete(value) {
   }
 
   *selectByRank(rank) {
+
   }
+
 
 
   // Barebones BST Insert algorithm

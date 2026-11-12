@@ -25,7 +25,6 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Calls the bare-bone insert function because we don't need highlighting for that
 console.log("Drawing initial tree..");
 const initialTree = new BinarySearchTree();
-
 let generatedValues = [];
 for (let i = 0; i < 15; i++) {
   let val = Math.floor(Math.random() * 100);
@@ -38,6 +37,7 @@ for (let i = 0; i < 15; i++) {
 }
 
 let nodes = drawTree(initialTree, document.getElementById("bst"));
+
 
 // Assign buttons to their respective algorithm functions
 searchButton.addEventListener("click", () => {
@@ -52,14 +52,14 @@ searchButton.addEventListener("click", () => {
   input.value = "";
 });
 
-insertButton.addEventListener("click", () => {
+insertButton.addEventListener("click", async () => {
   const value = parseInt(input.value);
 
   if (!isNaN(value)) {
-    const alg = initialTree.insert(value);
+    const alg = await visualInsert(initialTree, value);
 
-    if (alg) drawTree(initialTree, document.getElementById("bst"));
-    else alert("Value already exists in the tree.");
+    nodes = drawTree(initialTree, document.getElementById("bst"));
+    //alert("Value already exists in the tree.");
   } else {
     alert("Please enter a valid number.");
   }
@@ -69,15 +69,15 @@ insertButton.addEventListener("click", () => {
 
 clearButton.addEventListener("click", () => {
   initialTree.clear();
-  drawTree(initialTree, document.getElementById("bst"));
+  nodes = drawTree(initialTree, document.getElementById("bst"));
 });
+
 
 // Visual functions to interface with the BST generator functions for each algorithm
 async function visualSearch(tree, value) {
   const steps = tree.search(value);
 
   for await (const step of steps) {
-    const result = step.val;
     const node = step.node;
     const pseudo = step.text;
 
@@ -96,6 +96,24 @@ async function visualSearch(tree, value) {
 }
 
 async function visualInsert(tree, value) {
+  const steps = tree.insert(value);
+
+  for await (const step of steps) {
+    const node = step.node;
+    const pseudo = step.text;
+
+    if (!(node === null)) {
+      highlightNode(nodes[node.value].nodeElement);
+      code.textContent = pseudo;
+      await sleep(delay);
+      unhighlightNode(nodes[node.value].nodeElement);
+
+    } else {
+      code.textContent = pseudo;
+      await sleep(delay);
+    }
+  }
+
 
 }
 
