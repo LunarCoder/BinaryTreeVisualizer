@@ -4,13 +4,12 @@
 import { BinarySearchTree } from "./bst.js";
 import {drawTree, highlightNode, unhighlightNode} from "./drawer.js";
 
-// Constants
-const delay = 1500; 
-
 // HTML element links
 const input = document.getElementById("valueInput");
 const clearButton = document.getElementById("clear");
 const code = document.getElementById("code");
+const speed = document.getElementById("speed");
+let delay = 5000 - speed.value; //all in ms
 
 const searchButton = document.getElementById("search");
 const insertButton = document.getElementById("insert");
@@ -56,10 +55,9 @@ insertButton.addEventListener("click", async () => {
   const value = parseInt(input.value);
 
   if (!isNaN(value)) {
-    const alg = await visualInsert(initialTree, value);
+    await visualInsert(initialTree, value);
 
     nodes = drawTree(initialTree, document.getElementById("bst"));
-    //alert("Value already exists in the tree.");
   } else {
     alert("Please enter a valid number.");
   }
@@ -67,9 +65,29 @@ insertButton.addEventListener("click", async () => {
   input.value = "";
 });
 
+deleteButton.addEventListener("click", async () => {
+  const value = parseInt(input.value);
+
+  if (!isNaN(value)) {
+    await visualDelete(initialTree, value);
+
+    nodes = drawTree(initialTree, document.getElementById("bst"));
+  } else {
+    alert("Please enter a valid number.");
+  }
+
+  input.value = "";
+})
+
 clearButton.addEventListener("click", () => {
   initialTree.clear();
   nodes = drawTree(initialTree, document.getElementById("bst"));
+});
+
+speed.addEventListener("input", () => {
+  // As the slider goes up, the delay goes down in ms (faster)
+  // Max speed is no delay
+  delay = 5000 - speed.value;
 });
 
 
@@ -77,28 +95,29 @@ clearButton.addEventListener("click", () => {
 async function visualSearch(tree, value) {
   const steps = tree.search(value);
 
-  for await (const step of steps) {
-    const node = step.node;
-    const pseudo = step.text;
-
-    if (!(node === null)) {
-      highlightNode(nodes[node.value].nodeElement);
-      code.textContent = pseudo;
-      await sleep(delay);
-      unhighlightNode(nodes[node.value].nodeElement);
-
-    } else {
-      code.textContent = pseudo;
-      await sleep(delay);
-    }
-  }
+  await visualizeSteps(steps);
 
 }
 
 async function visualInsert(tree, value) {
   const steps = tree.insert(value);
 
-  for await (const step of steps) {
+  await visualizeSteps(steps);
+}
+
+async function visualDelete(tree, value) {
+  const steps = tree.delete(value);
+
+  await visualizeSteps(steps);
+}
+
+async function visualSelectByRank(tree, rank) {
+
+}
+
+// Handle the steps of a generator function
+async function visualizeSteps(_steps) {
+  for await (const step of _steps) {
     const node = step.node;
     const pseudo = step.text;
 
@@ -113,14 +132,4 @@ async function visualInsert(tree, value) {
       await sleep(delay);
     }
   }
-
-
-}
-
-async function visualDelete(tree, value) {
-
-}
-
-async function visualSelectByRank(tree, rank) {
-
 }

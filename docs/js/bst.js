@@ -26,10 +26,10 @@ export class BinarySearchTree {
     let current = this.root;
 
     while (current !== null) {
-      yield {
+      /*yield {
         node: current,
         text: `Check if ${value} == ${current.value}`
-      };
+      };*/
       if (current.value === value) {
         yield {
           node: current,
@@ -116,7 +116,96 @@ export class BinarySearchTree {
   }
   
 
-  *delete(value) {
+  *delete(value, node = this.root) {
+    if (node === null) {
+      yield {
+        node: null,
+        text: `${value} not found in tree`
+      };
+
+      return null;
+    }
+    
+    //Search left or right until found
+    if (node.value > value) {
+      yield {
+        node: node,
+        text: `${value} < ${node.value}; search left`
+      };
+
+      node.left = yield *this.delete(value, node.left);
+    } else if (node.value < value) {
+      yield {
+        node: node,
+        text: `${value} > ${node.value}; search right`
+      };
+
+      node.right = yield *this.delete(value, node.right);
+    } else {
+      yield {
+        node: node,
+        text: `Found ${value}; delete node`
+      };
+
+      // Three delete cases
+
+      // 0 children
+      if (node.left === null && node.right === null) {
+        yield {
+          node: node,
+          text: `Node has no children; delete node`
+        };
+
+        if (node === this.root) {
+          this.root = null;
+        }
+
+        return null;
+      }
+
+      // 1 child, left or right
+      if (node.left === null) {
+        yield {
+          node: node,
+          text: `Node has no left child; replace with right child`
+        };
+        
+        if (node === this.root) {
+          this.root = node.right;
+        }
+
+        return node.right;
+      }
+
+      if (node.right === null) {
+        yield {
+          node: node,
+          text: `Node has no right child; replace with left child`
+        };
+
+        if (node === this.root) {
+          this.root = node.left;
+        }
+
+        return node.left;
+      }
+
+      // 2 children
+      yield {
+        node: node,
+        text: `Node has two children; replace with in-order successor`
+      };
+
+      let successor = node.right;
+      while (successor.left !== null) {
+        successor = successor.left;
+      }
+
+      node.value = successor.value;
+      node.right = yield *this.delete(successor.value, node.right);
+    }
+
+    return node;
   }
 
   *selectByRank(rank) {
